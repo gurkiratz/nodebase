@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nodebase
+
+Nodebase is a visual workflow automation platform that enables users to build automated workflows through a drag-and-drop interface.
+
+## Features
+
+**Visual Workflow Builder**
+
+- Drag-and-drop canvas for creating automated workflows
+
+**Multiple Triggers**
+
+- Webhooks, Google Form submissions, Stripe event listeners, and manual triggers
+
+**AI & Messaging Integrations**
+
+- AI providers: OpenAI, Claude, Gemini
+- Messaging platforms: Discord, Slack
+- Generic HTTP request node
+- Extensible architecture for adding custom integrations
+
+**Real-time Execution & Monitoring**
+
+- Real-time workflow execution with instant status updates via WebSockets
+- Visual node status indicators (working, complete, failed)
+
+**Background Job Execution**
+
+- Powered by Inngest for background job execution
+- Automatic retry management
+- Real-time pub/sub messaging for live updates
+
+**Full SaaS Business Layer**
+
+- Authentication with Better Auth
+- Payment and subscription management with Polar
+- Support for free tiers, paid plans, and usage-based billing
+
+**Production-Ready Features**
+
+- Sentry integration for error tracking, logging, and session replays
+- AI agent monitoring with detailed LLM call information (token counts, costs, execution duration)
+
+## Tech Stack
+
+- **Framework**: Next.js with TypeScript
+- **Database**: Prisma ORM with Neon Postgres
+- **Workflow Canvas**: React Flow
+- **Background Jobs**: Inngest
+- **Authentication**: Better Auth
+- **Payments**: Polar
+- **Monitoring**: Sentry
+- **Code Reviews**: Code Rabbit
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
