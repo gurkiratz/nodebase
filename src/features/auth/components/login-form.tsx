@@ -25,9 +25,9 @@ import {
 } from '@/components/ui/form'
 
 import { Input } from '@/components/ui/input'
-import { GithubIcon, Loader2 } from 'lucide-react'
-import { SiGoogle, SiGithub } from '@icons-pack/react-simple-icons'
+import { Loader2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import Image from 'next/image'
 
 const loginSchema = z.object({
   email: z.email('Email is required'),
@@ -84,7 +84,13 @@ export function LoginForm() {
                     type="button"
                     disabled={isPending}
                   >
-                    <SiGithub className="size-4" /> Continue with GitHub
+                    <Image
+                      src="/logos/github.svg"
+                      alt="GitHub"
+                      width={20}
+                      height={20}
+                    />{' '}
+                    Continue with GitHub
                   </Button>
                   <Button
                     variant={'outline'}
@@ -92,7 +98,13 @@ export function LoginForm() {
                     type="button"
                     disabled={isPending}
                   >
-                    <SiGoogle className="size-4" /> Continue with Google
+                    <Image
+                      src="/logos/google.svg"
+                      alt="Google"
+                      width={20}
+                      height={20}
+                    />{' '}
+                    Continue with Google
                   </Button>
                 </div>
                 <div className="grid gap-6">
