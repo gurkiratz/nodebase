@@ -1,3 +1,5 @@
+![Nodebase Logo](./public/logos/logo.svg)
+
 # Nodebase
 
 Nodebase is a visual workflow automation platform that enables users to build automated workflows through a drag-and-drop interface.
@@ -33,6 +35,7 @@ Nodebase is a visual workflow automation platform that enables users to build au
 **Full SaaS Business Layer**
 
 - Authentication with Better Auth
+- Type-safe API layer with tRPC
 - Payment and subscription management with Polar
 - Support for free tiers, paid plans, and usage-based billing
 
@@ -45,6 +48,7 @@ Nodebase is a visual workflow automation platform that enables users to build au
 
 - **Framework**: Next.js with TypeScript
 - **Database**: Prisma ORM with Neon Postgres
+- **API Layer**: tRPC with TanStack React Query
 - **Workflow Canvas**: React Flow
 - **Background Jobs**: Inngest
 - **Authentication**: Better Auth
