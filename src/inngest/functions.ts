@@ -4,6 +4,7 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'
 import { createAnthropic } from '@ai-sdk/anthropic'
+import * as Sentry from '@sentry/nextjs'
 
 const google = createGoogleGenerativeAI()
 const openai = createOpenAI()
@@ -14,6 +15,9 @@ export const execute = inngest.createFunction(
   { event: 'execute/ai' },
   async ({ event, step }) => {
     await step.sleep('pretend', '5s')
+
+    Sentry.logger.info('User triggered test log', { log_source: 'sentry_test' })
+
     const { steps: geminiSteps } = await step.ai.wrap(
       'gemini-generate-text',
       generateText,
@@ -21,6 +25,11 @@ export const execute = inngest.createFunction(
         model: google('gemini-2.5-flash'),
         system: 'You are a helpful assistant.',
         prompt: 'Who are you?',
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     )
 
@@ -31,6 +40,11 @@ export const execute = inngest.createFunction(
         model: openai('gpt-4o'),
         system: 'You are a helpful assistant.',
         prompt: 'Who are you?',
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     )
 
@@ -41,6 +55,11 @@ export const execute = inngest.createFunction(
         model: anthropic('claude-3.5-sonnet'),
         system: 'You are a helpful assistant.',
         prompt: 'Who are you?',
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     )
 
