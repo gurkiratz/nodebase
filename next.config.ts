@@ -1,17 +1,27 @@
-import { withSentryConfig } from '@sentry/nextjs';
+import { withSentryConfig } from '@sentry/nextjs'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   /* config options here */
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/workflows',
+        permanent: false,
+      },
+    ]
+  },
+  devIndicators: false,
 }
 
 export default withSentryConfig(nextConfig, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-  org: "gurs-company",
+  org: 'gurs-company',
 
-  project: "nodebase",
+  project: 'nodebase',
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
@@ -40,5 +50,5 @@ export default withSentryConfig(nextConfig, {
       // Automatically tree-shake Sentry logger statements to reduce bundle size
       removeDebugLogging: true,
     },
-  }
-});
+  },
+})
