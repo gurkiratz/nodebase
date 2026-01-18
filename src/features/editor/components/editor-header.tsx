@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { SaveIcon } from "lucide-react";
+import { ClockFading, SaveIcon } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,13 +15,46 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   useSuspenseWorkflow,
+  useUpdateWorkflow,
   useUpdateWorkflowName,
 } from "@/features/workflows/hooks/use-workflows";
+import { useAtomValue } from "jotai";
+import { editorAtom } from "../store/atoms";
+import { formatDistanceToNow } from "date-fns";
 
 export const EditorSaveButton = ({ workflowId }: { workflowId: string }) => {
+  const editor = useAtomValue(editorAtom);
+  const { data: workflow } = useSuspenseWorkflow(workflowId);
+  const saveWorkflow = useUpdateWorkflow();
+
+  const handleSave = () => {
+    if (!editor) {
+      return;
+    }
+
+    const nodes = editor.getNodes();
+    const edges = editor.getEdges();
+
+    saveWorkflow.mutate({
+      id: workflowId,
+      nodes,
+      edges,
+    });
+  };
   return (
-    <div className="ml-auto">
-      <Button size={"sm"} onClick={() => {}} disabled={false}>
+    <div className="ml-auto flex items-center gap-3">
+      <span className="text-sm text-muted-foreground hidden sm:inline">
+        Saved {formatDistanceToNow(workflow.updatedAt, { addSuffix: true })}
+      </span>
+      <span className="text-sm text-muted-foreground sm:hidden flex flex-row items-center gap-1">
+        <ClockFading size={16} />{" "}
+        {formatDistanceToNow(workflow.updatedAt, { addSuffix: true })}
+      </span>
+      <Button
+        size={"sm"}
+        onClick={handleSave}
+        disabled={saveWorkflow.isPending}
+      >
         <SaveIcon className="size-4" />
         Save
       </Button>
