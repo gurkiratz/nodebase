@@ -7,6 +7,7 @@ import { NodeStatus } from "@/components/react-flow/node-status-indicator";
 import { HttpRequestFormValues, HttpRequestDialog } from "./dialog";
 
 type HttpRequestNodeData = {
+  variableName?: string;
   endpoint?: string;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
@@ -53,7 +54,11 @@ export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
         {...props}
         id={props.id}
         icon={GlobeIcon}
-        name="HTTP Request"
+        name={
+          nodeData?.variableName
+            ? `HTTP Request (${nodeData.variableName})`
+            : "HTTP Request"
+        }
         description={description}
         status={nodeStatus}
         onSettings={handleOpenSettings}
