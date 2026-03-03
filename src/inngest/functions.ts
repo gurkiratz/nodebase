@@ -21,6 +21,34 @@ export const executeWorkflow = inngest.createFunction(
         include: { nodes: true, connections: true },
       });
 
+      const triggerTypes: string[] = [
+        NodeType.INITIAL,
+        NodeType.MANUAL_TRIGGER,
+      ];
+      const executionNodes = workflow.nodes.filter(
+        (n) => !triggerTypes.includes(n.type)
+      );
+
+      if (executionNodes.length > 0 && workflow.connections.length === 0) {
+        throw new NonRetriableError(
+          "Workflow has execution nodes but no connections. Connect your nodes before running."
+        );
+      }
+
+      const connectedTargetIds = new Set(
+        workflow.connections.map((c) => c.toNodeId)
+      );
+      const disconnected = executionNodes.filter(
+        (n) => !connectedTargetIds.has(n.id)
+      );
+      if (disconnected.length > 0) {
+        throw new NonRetriableError(
+          `Disconnected execution nodes: ${disconnected
+            .map((n) => n.name)
+            .join(", ")}. Connect all nodes before running.`
+        );
+      }
+
       return topologicalSort(workflow.nodes, workflow.connections);
     });
 
@@ -29,7 +57,7 @@ export const executeWorkflow = inngest.createFunction(
 
     // Execute each node
     for (const node of sortedNodes) {
-      const executor = getExecutor(node.type as NodeType);
+      const executor = getExecutor(node.type);
       context = await executor({
         data: node.data as Record<string, unknown>,
         nodeId: node.id,
