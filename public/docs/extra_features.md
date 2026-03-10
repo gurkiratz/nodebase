@@ -10,3 +10,10 @@
   - copies exact configuration
   - handles for any errors such as previous node data
 - Delete Node by pressing delete key after selecting it
+
+## Issues
+
+### Editor
+
+- Duplicate variable names
+- toast color same for error and info
