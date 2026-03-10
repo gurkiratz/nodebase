@@ -6,6 +6,7 @@ import {
   PlusIcon,
   SearchIcon,
   TrashIcon,
+  PencilIcon,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -260,6 +261,7 @@ interface EntityItemProps {
   actions?: React.ReactNode;
   onRemove?: () => void | Promise<void>;
   isRemoving?: boolean;
+  onRename?: () => void;
   className?: string;
 }
 
@@ -271,6 +273,7 @@ export const EntityItem = ({
   actions,
   onRemove,
   isRemoving,
+  onRename,
   className,
 }: EntityItemProps) => {
   const handleRemove = async (e: React.MouseEvent) => {
@@ -283,6 +286,15 @@ export const EntityItem = ({
       await onRemove();
     }
   };
+
+  const handleRename = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onRename) {
+      onRename();
+    }
+  };
+
   return (
     <Link href={href} prefetch>
       <Card
@@ -304,10 +316,10 @@ export const EntityItem = ({
               )}
             </div>
           </div>
-          {(actions || onRemove) && (
+          {(actions || onRemove || onRename) && (
             <div className="flex gap-x-4 items-center">
               {actions}
-              {onRemove && (
+              {(onRemove || onRename) && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
@@ -322,10 +334,18 @@ export const EntityItem = ({
                     align="end"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <DropdownMenuItem onClick={handleRemove}>
-                      <TrashIcon className="size-4" />
-                      Delete
-                    </DropdownMenuItem>
+                    {onRename && (
+                      <DropdownMenuItem onClick={handleRename}>
+                        <PencilIcon className="size-4" />
+                        Rename
+                      </DropdownMenuItem>
+                    )}
+                    {onRemove && (
+                      <DropdownMenuItem onClick={handleRemove}>
+                        <TrashIcon className="size-4" />
+                        Delete
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}

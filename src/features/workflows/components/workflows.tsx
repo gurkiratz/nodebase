@@ -23,6 +23,8 @@ import { useEntitySearch } from "@/hooks/use-entity-search";
 import { Workflow as WorkflowType } from "@/generated/prisma/client";
 import { WorkflowIcon } from "lucide-react";
 import { date } from "zod";
+import { useState } from "react";
+import { RenameWorkflowModal } from "./rename-workflow-modal";
 
 export const WorkflowSearch = () => {
   const [params, setParams] = useWorkflowsParams();
@@ -148,29 +150,43 @@ export const WorkflowsEmpty = () => {
 
 export const WorkflowItem = ({ data }: { data: WorkflowType }) => {
   const removeWorkflow = useRemoveWorkflow();
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
   const handleRemove = () => {
     removeWorkflow.mutate({ id: data.id });
   };
 
+  const handleRename = () => {
+    setIsRenameModalOpen(true);
+  };
+
   return (
-    <EntityItem
-      href={`/workflows/${data.id}`}
-      title={data.name}
-      subtitle={
-        <>
-          Updated {formatDistanceToNow(data.updatedAt, { addSuffix: true })}{" "}
-          &bull; Created{" "}
-          {formatDistanceToNow(data.createdAt, { addSuffix: true })}
-        </>
-      }
-      image={
-        <div className="size-8 flex items-center justify-center">
-          <WorkflowIcon className="size-5 text-muted-foreground" />
-        </div>
-      }
-      onRemove={handleRemove}
-      isRemoving={removeWorkflow.isPending}
-    />
+    <>
+      <EntityItem
+        href={`/workflows/${data.id}`}
+        title={data.name}
+        subtitle={
+          <>
+            Updated {formatDistanceToNow(data.updatedAt, { addSuffix: true })}{" "}
+            &bull; Created{" "}
+            {formatDistanceToNow(data.createdAt, { addSuffix: true })}
+          </>
+        }
+        image={
+          <div className="size-8 flex items-center justify-center">
+            <WorkflowIcon className="size-5 text-muted-foreground" />
+          </div>
+        }
+        onRemove={handleRemove}
+        isRemoving={removeWorkflow.isPending}
+        onRename={handleRename}
+      />
+      <RenameWorkflowModal
+        open={isRenameModalOpen}
+        onOpenChange={setIsRenameModalOpen}
+        workflowId={data.id}
+        currentName={data.name}
+      />
+    </>
   );
 };
