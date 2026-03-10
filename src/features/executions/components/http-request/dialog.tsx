@@ -28,8 +28,10 @@ import { JsonEditor } from "@/components/json-editor";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Copy, Check } from "lucide-react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   variableName: z
@@ -114,6 +116,17 @@ export const HttpRequestDialog = ({
   const watchMethod = form.watch("method");
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
 
+  const variableReference = `{{${watchVariableName}.httpResponse.data}}`;
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyVariable = useCallback(() => {
+    navigator.clipboard.writeText(variableReference).then(() => {
+      setCopied(true);
+      toast.success(`${variableReference} copied`);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [variableReference]);
+
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     onSubmit(values);
     onOpenChange(false);
@@ -143,8 +156,25 @@ export const HttpRequestDialog = ({
                     <Input placeholder="myApiCall" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Use this name to reference the response data in other nodes:{" "}
-                    {"{{" + watchVariableName + ".httpResponse.data}}"}
+                    Use this name to reference the response data in other
+                    nodes:{" "}
+                    <span className="inline-flex items-center gap-1">
+                      <code className="rounded bg-muted border px-1.5 py-0.5 font-mono text-xs">
+                        {variableReference}
+                      </code>
+                      <button
+                        type="button"
+                        onClick={handleCopyVariable}
+                        className="inline-flex items-center justify-center rounded-sm p-0.5 text-muted-foreground hover:text-foreground transition-colors"
+                        aria-label="Copy variable reference"
+                      >
+                        {copied ? (
+                          <Check className="size-3.5" />
+                        ) : (
+                          <Copy className="size-3.5" />
+                        )}
+                      </button>
+                    </span>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

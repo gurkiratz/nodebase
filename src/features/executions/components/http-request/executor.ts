@@ -1,8 +1,15 @@
 import type { NodeExecutor } from "@/features/executions/types";
 import { httpRequestChannel } from "@/inngest/channels/http-request";
 import { NonRetriableError } from "inngest";
-import ky from "ky";
-import type { Options as KyOptions } from "ky";
+import ky, { type Options as KyOptions } from "ky";
+import Handlebars from "handlebars";
+
+Handlebars.registerHelper("json", (context) => {
+  const jsonString = JSON.stringify(context, null, 2);
+  const safeString = new Handlebars.SafeString(jsonString);
+  return safeString;
+});
+
 type HttpRequestData = {
   variableName: string;
   endpoint: string;

@@ -1,8 +1,10 @@
 packages:
   - .
-
 onlyBuiltDependencies:
   - '@prisma/engines'
+  - '@sentry/cli'
   - esbuild
   - inngest-cli
   - prisma
+  - protobufjs
+  - sharp
