@@ -32,6 +32,9 @@ importers:
       '@icons-pack/react-simple-icons':
         specifier: ^13.8.0
         version: 13.8.0(react@19.2.3)
+      '@inngest/realtime':
+        specifier: ^0.4.6
+        version: 0.4.6(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))(hono@4.10.6)(next@16.1.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(typescript@5.9.3)(zod@4.2.1)
       '@paralleldrive/cuid2':
         specifier: ^3.0.6
         version: 3.0.6
@@ -874,6 +877,12 @@ packages:
 
   '@inngest/ai@0.1.7':
     resolution: {integrity: sha512-5xWatW441jacGf9czKEZdgAmkvoy7GS2tp7X8GSbdGeRXzjisHR6vM+q8DQbv6rqRsmQoCQ5iShh34MguELvUQ==}
+
+  '@inngest/realtime@0.4.6':
+    resolution: {integrity: sha512-26LjTev/So/xaAfYL3XjDNHfIkLcJ6RlcjLv+z3nCZ46j1f4/nzUCkIJNwC1/YthpMKuJ8wmieuUb6E/N8ou3A==}
+    peerDependencies:
+      react: '>=18.0.0'
+      zod: ^3.25.0 || ^4.0.0
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -5274,6 +5283,28 @@ snapshots:
     dependencies:
       '@types/node': 22.19.3
       typescript: 5.9.3
+
+  '@inngest/realtime@0.4.6(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))(hono@4.10.6)(next@16.1.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(typescript@5.9.3)(zod@4.2.1)':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      debug: 4.4.3
+      inngest: 3.48.1(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))(hono@4.10.6)(next@16.1.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)(zod@4.2.1)
+      react: 19.2.3
+      zod: 4.2.1
+    transitivePeerDependencies:
+      - '@opentelemetry/core'
+      - '@sveltejs/kit'
+      - '@vercel/node'
+      - aws-lambda
+      - encoding
+      - express
+      - fastify
+      - h3
+      - hono
+      - koa
+      - next
+      - supports-color
+      - typescript
 
   '@isaacs/cliui@8.0.2':
     dependencies:
